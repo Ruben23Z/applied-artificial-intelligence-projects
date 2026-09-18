@@ -23,8 +23,8 @@ class RedeNeuronal:
         camada = CamadaEntrada(ds1)
         self.camadas.append(camada)
 
-        # Camada escondida começa em 2: dimensão de entrada = dimensão de saída da camada anterior
-        # vai-se fazendo append à camada anterior, para criar uma cadeia
+        # Constrói as restantes camadas, escondidas e de saída.
+        # A dimensão de entrada de cada camada corresponde à dimensão de saída da camada anterior (de n=1 até N-1)
         for n in range(1, self.N):
             de = forma[n - 1]
             ds = forma[n]

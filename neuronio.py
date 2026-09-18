@@ -2,7 +2,10 @@ import numpy as np
 
 
 def produto_interno(a, b):
-    """Produto interno, para futuras medidas de semelhança."""
+    """Produto interno (escalar) entre dois vetores, usado no cálculo da
+    soma de ativação h.
+    Expressa uma medida de semelhança entre o vetor de entrada e o vetor dos pesos."""
+
     total = 0
     for i in range(len(a)):
         total += a[i] * b[i]
@@ -21,9 +24,9 @@ class Neuronio:
         self.d = d
         self.phi = phi
 
-        # Vetor de pesos de tamanho d. Uso de uniform pois pesos precisam de ser contínuos para ajuste de pequenos incrementos
+        # Vetor de pesos de dimensão d, inicializado aleatoriamente no intervalo [-1, 1]
         self.w = [np.random.uniform(-1, 1) for _ in range(self.d)]
-        self.b = np.random.uniform(-1, 1)  # pendor interno dos neurónios
+        self.b = np.random.uniform(-1, 1)  # pendor interno do neurónio
         self.h = 0  # soma de ativação das entradas, escalar com valor inicial de 0
         self.y = 0  # saída do neurónio
 
@@ -34,6 +37,9 @@ class Neuronio:
         Args:
             x: vetor das entradas
         """
+
+        assert len(x) == self.d, f"Dimensão de entrada inválida: esperado {self.d}, recebido {len(x)}"
+
         # Cálculo da soma da ativação (h): pendor somado ao produto
         # interno entre os pesos e as entradas
         self.h = produto_interno(self.w, x) + self.b

@@ -16,7 +16,7 @@ class CamadaDensa:
         self.de = de
         self.ds = ds
         self.phi = phi
-        self.y = []
+        self.y = []  # saída da camada. Só é preenchida após a primeira chamada a propagar()
         self.neuronios = [Neuronio(de, phi) for _ in range(ds)]
 
     def propagar(self, x):
