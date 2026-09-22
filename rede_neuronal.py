@@ -61,3 +61,8 @@ class RedeNeuronal:
         for camada in self.camadas:
             y = camada.propagar(y)
         return y
+
+
+
+#faz e etstar com modulo de testes, com o teste do xor, experimentar valores aleatorios e comparar com os slides das aulas.
+#primeira parte somente a da aula um, depois a parte dois da parte 1 é da aula de hoje

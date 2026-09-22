@@ -45,3 +45,8 @@ class Neuronio:
         self.h = produto_interno(self.w, x) + self.b
         self.y = self.phi(self.h)  # aplicação da função de ativação (φ) à soma da ativação
         return self.y
+    
+    
+    
+    
+    
