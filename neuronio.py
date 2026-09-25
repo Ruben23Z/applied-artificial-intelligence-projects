@@ -1,5 +1,16 @@
 import numpy as np
 
+"""
+Neurónio artificial (RNA Parte 1 slides 12-22, Parte 2 32-33).
+4 elementos: entradas x, pesos w com valores que representam a permeabilidade sináptica,
+ função de transferência f e a saída y.
+h = w·x + b (soma de ativação: produto interno + pendor, determina a deslocação da fronteira de discriminação
+ , slide 17)
+y = φ(h) (função de ativação: introduz não-linearidade, determina a saida do neurónio, 
+resultante do produto escalar das entradas e dos pesos sinápticos somado com o pendor, slide 20-21)
+w e b definem a fronteira de discriminação (recta/plano/hiperplano).
+"""
+
 
 def produto_interno(a, b):
     """Produto interno (escalar) entre dois vetores, usado no cálculo da
@@ -45,8 +56,3 @@ class Neuronio:
         self.h = produto_interno(self.w, x) + self.b
         self.y = self.phi(self.h)  # aplicação da função de ativação (φ) à soma da ativação
         return self.y
-    
-    
-    
-    
-    
