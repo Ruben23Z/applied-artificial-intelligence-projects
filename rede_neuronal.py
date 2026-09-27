@@ -31,6 +31,7 @@ encadeada das várias camadas da rede(slide 21):
 até se obter a saída final y^N. 
 Os pesos e pendores de todas as camadas (exceto a de entrada) formam os parâmetros θ da rede(slide 20).
 
+
 """
 
 
@@ -97,3 +98,93 @@ class RedeNeuronal:
         for camada in self.camadas:
             y = camada.propagar(y)
         return y
+
+    def delta_saida(self, y_n, y):
+        """
+        Calcula a perda de saída da rede: δ^N = y^N - y (slide 41, parte 3),
+        para a função de perda EQM (slide 28, parte 3).
+        Args:
+            y_n: vetor de saída gerado pela rede (y^N)
+            y: vetor de treino de saída (alvo)
+        Returns:
+            Vetor de variação de erro de saída (δ^N)
+        """
+        return [y_n[k] - y[k] for k in range(len(y))]
+
+    def retropropagar(self, delta_N, alpha):
+        """
+        Retropropaga o erro pelas camadas da rede, exceto a camada de
+        entrada (slide 42, parte 3).
+        Args:
+            delta_N: vetor de variação de erro de saída da rede (δ^N)
+            alpha: taxa de aprendizagem (α)
+        """
+        delta_n = delta_N  # δ^n começa como δ^N (erro da camada de saída)
+
+        # Percorre as camadas de N até 2 (índice Python: de len-1 até 1),
+        # nunca chegando à camada de entrada (índice 0), que apenas mantém
+        # as entradas e não tem parâmetros a adaptar
+        for n in range(len(self.camadas) - 1, 0, -1):
+            yn_1 = self.camadas[n - 1].y  # saída da camada anterior (y^(n-1))
+            dn_1 = self.camadas[n - 1].ds  # dimensão da camada n-1
+            dn = self.camadas[n].ds  # dimensão da camada n
+            neuronios_n = self.camadas[n].neuronios  # neurónios da camada n
+
+            delta_n_1 = [0 for _ in range(dn_1)]  # δ^(n-1), um valor por neurónio de n-1
+
+            # Para cada neurónio i da camada anterior (n-1), soma a
+            # contribuição de todos os neurónios j da camada atual (n)
+            for i in range(dn_1):
+                soma = 0
+                for j in range(dn):
+                    soma = soma + (neuronios_n[j].w[i] * delta_n[j] * neuronios_n[j].y_derivada)
+                delta_n_1[i] = soma
+
+            # Adapta os pesos e pendores da camada n com o δ^n atual
+            # (antes de ser substituído pelo δ^(n-1) calculado acima)
+            self.camadas[n].adaptar(delta_n, yn_1, alpha)
+            delta_n = delta_n_1  # avança para a próxima iteração (camada n-1)
+
+    def adaptar(self, x, y, alpha):
+        """
+        Realiza um passo completo de aprendizagem para um par (entrada,
+        saída) de treino: propagação direta, cálculo do erro de saída,
+        retropropagação e cálculo do erro médio (slide 43, parte 3).
+        Args:
+            x: vetor de treino de entrada
+            y: vetor de treino de saída (alvo)
+            alpha: taxa de aprendizagem (α)
+        Returns:
+            Erro médio de saída da rede (ε)
+        """
+        y_N = self.propagar(x)  # propagação direta, gera a saída da rede (y^N)
+        delta_N = self.delta_saida(y_N, y)  # perda de saída (δ^N = y^N - y)
+        self.retropropagar(delta_N, alpha)  # retropropaga o erro e adapta os parâmetros
+
+        K = len(delta_N)  # dimensão do vetor de perda
+        erro = sum(delta_k ** 2 for delta_k in delta_N) / K  # erro médio de saída (ε), Erro Quadrático Médio
+
+        return erro
+
+    def treinar(self, X, Y, num_epocas, erro_max, alpha):
+        """
+        Treina a rede neuronal por retropropagação do erro, ao longo de
+        várias épocas, até o erro máximo ser atingido ou o número máximo
+        de épocas ser alcançado (slide 44, Parte 3).
+
+        Args:
+            X: conjunto de vetores de treino de entrada
+            Y: conjunto de vetores de treino de saída (alvo)
+            num_epocas: número máximo de épocas de treino
+            erro_max: erro máximo aceite para finalizar o treino antecipadamente
+            alpha: taxa de aprendizagem (α)
+        """
+        for epoca in range(num_epocas):
+            erro = 0
+            for i in range(len(X)):
+                x = X[i]
+                y = Y[i]
+                erro_x = self.adaptar(x, y, alpha)  # erro de treino para o exemplo x
+                erro = max(erro, erro_x)
+            if erro <= erro_max:
+                break

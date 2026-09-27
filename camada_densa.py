@@ -29,6 +29,8 @@ processamento distribuído e escalabilidade mas à custa de maior
 dificuldade de interpretação e necessidade de mais dados de treino
 (slides 30-31).
 """
+
+
 class CamadaDensa:
     """Camada densa: conjunto de neurónios totalmente ligados às entradas."""
 
@@ -63,3 +65,15 @@ class CamadaDensa:
         """
         self.y = [neuronio.propagar(x) for neuronio in self.neuronios]
         return self.y
+
+    def adapta(self, delta, yn_1, alpha):
+        """
+        Adapta os pesos e pendores dos neurónios da camada (slide 40, Parte 3).
+        Args:
+            delta: vetor de erro de saída da camada (δ^n), um valor por neurónio
+            yn_1: vetor de saída da camada anterior (y^(n-1)), entrada comum a todos os neurónios
+            alpha: taxa de aprendizagem (α)
+        """
+
+        for j in range(self.ds):
+            self.neuronios[j].adaptar(delta[j], yn_1, alpha)
