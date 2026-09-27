@@ -99,6 +99,8 @@ class RedeNeuronal:
             y = camada.propagar(y)
         return y
 
+
+
     def delta_saida(self, y_n, y):
         """
         Calcula a perda de saída da rede: δ^N = y^N - y (slide 41, parte 3),
@@ -111,13 +113,15 @@ class RedeNeuronal:
         """
         return [y_n[k] - y[k] for k in range(len(y))]
 
-    def retropropagar(self, delta_N, alpha):
+    def retropropagar(self, delta_N, alpha, beta):
         """
         Retropropaga o erro pelas camadas da rede, exceto a camada de
         entrada (slide 42, parte 3).
         Args:
             delta_N: vetor de variação de erro de saída da rede (δ^N)
             alpha: taxa de aprendizagem (α)
+            beta: fator de momento (β)
+
         """
         delta_n = delta_N  # δ^n começa como δ^N (erro da camada de saída)
 
@@ -142,10 +146,10 @@ class RedeNeuronal:
 
             # Adapta os pesos e pendores da camada n com o δ^n atual
             # (antes de ser substituído pelo δ^(n-1) calculado acima)
-            self.camadas[n].adaptar(delta_n, yn_1, alpha)
+            self.camadas[n].adaptar(delta_n, yn_1, alpha, beta)
             delta_n = delta_n_1  # avança para a próxima iteração (camada n-1)
 
-    def adaptar(self, x, y, alpha):
+    def adaptar(self, x, y, alpha, beta):
         """
         Realiza um passo completo de aprendizagem para um par (entrada,
         saída) de treino: propagação direta, cálculo do erro de saída,
@@ -154,19 +158,21 @@ class RedeNeuronal:
             x: vetor de treino de entrada
             y: vetor de treino de saída (alvo)
             alpha: taxa de aprendizagem (α)
+            beta: fator de momento (β)
+
         Returns:
             Erro médio de saída da rede (ε)
         """
         y_N = self.propagar(x)  # propagação direta, gera a saída da rede (y^N)
         delta_N = self.delta_saida(y_N, y)  # perda de saída (δ^N = y^N - y)
-        self.retropropagar(delta_N, alpha)  # retropropaga o erro e adapta os parâmetros
+        self.retropropagar(delta_N, alpha, beta)  # retropropaga o erro e adapta os parâmetros
 
         K = len(delta_N)  # dimensão do vetor de perda
         erro = sum(delta_k ** 2 for delta_k in delta_N) / K  # erro médio de saída (ε), Erro Quadrático Médio
 
         return erro
 
-    def treinar(self, X, Y, num_epocas, erro_max, alpha):
+    def treinar(self, X, Y, num_epocas, erro_max, alpha, beta):
         """
         Treina a rede neuronal por retropropagação do erro, ao longo de
         várias épocas, até o erro máximo ser atingido ou o número máximo
@@ -178,13 +184,15 @@ class RedeNeuronal:
             num_epocas: número máximo de épocas de treino
             erro_max: erro máximo aceite para finalizar o treino antecipadamente
             alpha: taxa de aprendizagem (α)
+            beta: fator de momento (β)
+
         """
         for epoca in range(num_epocas):
             erro = 0
             for i in range(len(X)):
                 x = X[i]
                 y = Y[i]
-                erro_x = self.adaptar(x, y, alpha)  # erro de treino para o exemplo x
+                erro_x = self.adaptar(x, y, alpha, beta)  # erro de treino para o exemplo x
                 erro = max(erro, erro_x)
             if erro <= erro_max:
                 break

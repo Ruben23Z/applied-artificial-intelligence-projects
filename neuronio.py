@@ -19,6 +19,10 @@ de uma camada n, com componente de erro δ_j^n vindo da retropropagação
 a variação dos pesos e do pendor é dada por (slide 39):
     Δw = -α·y'·δ · y^(n-1)
     Δb = -α·y'·δ
+    
+β é o factor de momento, com β=0 corresponde à descida de gradiente
+simples, onde valores muito altos como β=2.0 podem
+introduzir oscilações e instabilidade (slide 13).
 """
 
 
@@ -36,7 +40,7 @@ def produto_interno(a, b):
 class Neuronio:
     """Neurónio artificial: pesos, pendor e função de ativação."""
 
-    def __init__(self, d, phi, phi_derivada):
+    def __init__(self, d, phi):
         """
         Args:
             d: dimensão de entrada. d ∈ Z+
@@ -46,11 +50,14 @@ class Neuronio:
         """
         self.d = d
         self.phi = phi
-        self.phi_derivada = phi_derivada
 
         # Vetor de pesos de dimensão d, inicializado aleatoriamente no intervalo [-1, 1]
         self.w = [np.random.uniform(-1, 1) for _ in range(self.d)]
         self.b = np.random.uniform(-1, 1)  # pendor interno do neurónio
+
+        self.delta_w = [0 for _ in range(self.d)]  # variação dos pesos (Δw), guardada para o termo de momento
+        self.delta_b = 0  # variação do pendor (Δb), guardada para o termo de momento
+
         self.h = 0  # soma de ativação das entradas, escalar com valor inicial de 0
         self.y = 0  # saída do neurónio
         self.y_derivada = 0  # y' = φ'(h), usada na retropropagação (slide 38)
@@ -69,11 +76,13 @@ class Neuronio:
         # interno entre os pesos e as entradas
         self.h = produto_interno(self.w, x) + self.b
         self.y = self.phi(self.h)  # aplicação da função de ativação (φ) à soma da ativação
-        self.y_derivada = self.phi_derivada(self.h)  # φ'(h), não φ'(y) nem φ'(x)
+        #eps = 1e-5
+        #self.y_derivada = (self.phi(self.h + eps) - self.phi(self.h - eps)) / (2 * eps)
+        self.y_derivada = 1 - self.y ** 2  # φ'(h) = 1 - tanh(h)², assume phi = tanh
 
         return self.y
 
-    def adaptar(self, delta, yn_1, alpha):
+    def adaptar(self, delta, yn_1, alpha, beta):
         """
             Adapta os pesos das ligações de entrada e o pendor interno do
             neurónio, com base na retropropagação do erro (slide 39, Parte 3).
@@ -82,10 +91,15 @@ class Neuronio:
                 yn_1: vetor de saída da camada anterior (y^(n-1))
                 alpha: taxa de aprendizagem (α)
             """
-        fator = -alpha * self.phi_derivada * delta
-        for i in range(len(self.w)):
-            delta_w = fator * yn_1[i]  # Δw_i = -α·y'·δ·y_i^(n-1)
-            self.w[i] = self.w[i] + delta_w  # w_i = w_i + Δw_i
+        fator = -alpha * self.y_derivada * delta
 
-        delta_b = fator  # Δb = -α·y'·δ
-        self.b = self.b + delta_b  # b = b + Δb
+        for i in range(len(self.w)):
+            momento_w = beta * self.delta_w[i] # M_w = β·Δw_anterior
+            self.delta_w[i] = fator * yn_1[i] + momento_w  # Δw_i = -α·y'·δ·y_i^(n-1) + M_w
+            self.w[i] = self.w[i] + self.delta_w[i]  # w_i = w_i + Δw_i
+
+        momento_b = beta * self.delta_b  # M_b = β·Δb_anterior
+        self.delta_b = fator + momento_b  # Δb = -α·y'·δ + M_b
+        self.b = self.b + self.delta_b  # b = b + Δb
+
+

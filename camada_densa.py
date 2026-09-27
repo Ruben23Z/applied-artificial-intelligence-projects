@@ -66,14 +66,16 @@ class CamadaDensa:
         self.y = [neuronio.propagar(x) for neuronio in self.neuronios]
         return self.y
 
-    def adapta(self, delta, yn_1, alpha):
+    def adaptar(self, delta, yn_1, alpha, beta):
         """
-        Adapta os pesos e pendores dos neurónios da camada (slide 40, Parte 3).
+        Adapta os pesos e pendores dos neurónios da camada, com base na retropropagação do erro e com o termo de momento (slide 40, Parte 3).
         Args:
             delta: vetor de erro de saída da camada (δ^n), um valor por neurónio
             yn_1: vetor de saída da camada anterior (y^(n-1)), entrada comum a todos os neurónios
             alpha: taxa de aprendizagem (α)
+            beta: factor de momento (β)
+
         """
 
         for j in range(self.ds):
-            self.neuronios[j].adaptar(delta[j], yn_1, alpha)
+            self.neuronios[j].adaptar(delta[j], yn_1, alpha, beta)
