@@ -1,3 +1,4 @@
+from funcao_ativacao.func_ativacao import FuncAtivacao
 from neuronio import Neuronio
 from rede_neuronal import RedeNeuronal
 
@@ -25,22 +26,36 @@ implementar XOR (Parte 1, slides 33-34) — não existe fronteira linear
 """
 
 
-def cod_binaria(x):
-    """Codificação binária (slide 23, verdade=1,
-    falso=0): f(x)=1 se x>0, 0 se x<=0 (a definição geral no slide 22
-    usa x>=0; aqui replica-se a condição exata do exemplo para
-    reproduzir os valores do slide)."""
-    return 1 if x > 0 else 0
+class CodBinaria(FuncAtivacao):
+    """Degrau com codificação binária (Parte 2 slide 23, verdade=1, falso=0):
+    f(h)=1 se h>0, 0 se h<=0. A definição geral (Parte 1 slide 23) usa h>=0,
+    mas aqui replica-se a condição exata do exemplo para dar os valores dos slides."""
+
+    def calcular(self, h):
+        return 1 if h > 0 else 0
+
+    def derivada(self, h):
+        return 0  # o degrau não é diferenciável (Parte 1 slide 24); aqui só se testa a propagação
 
 
-def cod_bipolar(x):
-    """Codificação bipolar (slides 28-34 Parte 1):
-    y=+1 se h>=0, -1 caso contrário (verdade=+1, falso=-1)."""
-    return 1 if x >= 0 else -1
+class CodBipolar(FuncAtivacao):
+    """Degrau com codificação bipolar (Parte 1 slides 27-34, verdade=+1, falso=-1):
+    y=+1 se h>=0, -1 caso contrário."""
+
+    def calcular(self, h):
+        return 1 if h >= 0 else -1
+
+    def derivada(self, h):
+        return 0
+
+
+# Instâncias prontas a passar como φ, assim o resto dos Testes fica igual
+cod_binaria = CodBinaria()
+cod_bipolar = CodBipolar()
 
 
 def testar_xor():
-    """Testa a rede XOR com os pesos exatos do slide 23-27 (aula 1)."""
+    """Testa a rede XOR com os pesos exatos do slides 23-27 (Parte 2)."""
     rede = RedeNeuronal([2, 2, 1], cod_binaria)
 
     # Pesos e pendores do slide 23
@@ -66,8 +81,10 @@ def testar_xor():
         y = rede.propagar(x)  # propaga x por todas as camadas. Com y = saída final da rede
         y2 = [n.y for n in rede.camadas[1].neuronios]  # saída de cada neurónio da camada escondida(valor intermédio)
 
-        print( f"x={x} -> y2={y2}, y3={y} (esperado {esperado})")  # mostra entrada, saída escondida, saída final e resultado
-        assert y[0] == esperado, f"Falha no caso {x}: obtido {y}, esperado {esperado}"  # valida o teste; para o programa se falhar
+        print(
+            f"x={x} -> y2={y2}, y3={y} (esperado {esperado})")  # mostra entrada, saída escondida, saída final e resultado
+        assert y[
+                   0] == esperado, f"Falha no caso {x}: obtido {y}, esperado {esperado}"  # valida o teste; para o programa se falhar
 
 
 def testar_valores_aleatorios():
@@ -76,7 +93,8 @@ def testar_valores_aleatorios():
 
     print("\n === Teste com valores aleatórios ===")
 
-    rede = RedeNeuronal([2, 4, 1], cod_binaria)  # rede não treinada: 2 entradas, 4 escondidos, 1 saída, pesos aleatórios
+    rede = RedeNeuronal([2, 4, 1],
+                        cod_binaria)  # rede não treinada: 2 entradas, 4 escondidos, 1 saída, pesos aleatórios
 
     X = [[0, 0], [0, 1], [1, 0], [1, 1]]  # Conjunto de entradas em lote, devido á camada de entrada de tamanho 2
 

@@ -1,5 +1,5 @@
-from camada_densa import CamadaDensa
-from camada_entrada import CamadaEntrada
+from camadas.camada_densa import CamadaDensa
+from camadas.camada_entrada import CamadaEntrada
 
 """
 Rede neuronal (RNA Parte 2, slides 1-21, 37-38)
@@ -30,8 +30,6 @@ encadeada das várias camadas da rede(slide 21):
     yⁿ = φⁿ(xⁿ·Wⁿ + bⁿ), para n > 1, com xⁿ = y^(n-1)
 até se obter a saída final y^N. 
 Os pesos e pendores de todas as camadas (exceto a de entrada) formam os parâmetros θ da rede(slide 20).
-
-
 """
 
 
@@ -121,7 +119,6 @@ class RedeNeuronal:
             delta_N: vetor de variação de erro de saída da rede (δ^N)
             alpha: taxa de aprendizagem (α)
             beta: fator de momento (β)
-
         """
         delta_n = delta_N  # δ^n começa como δ^N (erro da camada de saída)
 
@@ -176,7 +173,7 @@ class RedeNeuronal:
         """
         Treina a rede neuronal por retropropagação do erro, ao longo de
         várias épocas, até o erro máximo ser atingido ou o número máximo
-        de épocas ser alcançado (slide 44, Parte 3).
+        de épocas ser alcançado (slide 44, parte 3).
 
         Args:
             X: conjunto de vetores de treino de entrada
