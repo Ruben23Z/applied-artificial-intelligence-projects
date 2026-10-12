@@ -1,21 +1,11 @@
 from camadas.camada_densa import CamadaDensa
 from camadas.camada_entrada import CamadaEntrada
 
-"""
-Rede neuronal (RNA Parte 2, slides 1-21, 37-38)
-
-Teorema da Aproximação Universal (slides 11-13): uma rede com uma
-única camada escondida, com um número finito de neurónios, aproxima
-qualquer função contínua num intervalo compacto, desde que φ seja
-não linear, mas o teorema garante a existência dessa rede, não
-indica a arquitetura nem os pesos concretos (problema da
-aprendizagem, slide 13). Esta classe implementa apenas a propagação
-direta (inferência com pesos fixos ou aleatórios), mas a determinação
-dos pesos por treino ou retropropagação do erro não está implementada
+"""Rede neuronal (RNA Parte 2, slides 1-21, 37-38) 
+Foi utilizado AI para o apoio na criação da documentação das diferentes classes 
 
 Composta por uma camada de entrada seguida de uma ou mais camadas
-densas (escondidas e a de saída), interligadas sequencialmente
-(slide 15). 
+densas (escondidas e a de saída), interligadas sequencialmente(slide 15). 
 O XOR não é resolúvel por uma única camada (perceptrão),
 pois exige duas fronteiras de separação linear em simultâneo
 (slides 3-6), em que as camadas escondidas resolvem isto projetando os
@@ -23,13 +13,18 @@ dados num espaço de maior dimensionalidade, onde se tornam
 linearmente separáveis (slides 7-9). É esta transformação não
 linear, repetida em cada camada, que dá à rede a capacidade de
 representar relações complexas (slide 28)
-
+ 
 Ativação direta da rede produz a saída y da rede com base na entrada X por ativação sequencial
 encadeada das várias camadas da rede(slide 21):
     y¹ = x
-    yⁿ = φⁿ(xⁿ·Wⁿ + bⁿ), para n > 1, com xⁿ = y^(n-1)
+    yⁿ = φⁿ(xⁿ*Wⁿ + bⁿ), para n > 1, com xⁿ = y^(n-1)
 até se obter a saída final y^N. 
 Os pesos e pendores de todas as camadas (exceto a de entrada) formam os parâmetros θ da rede(slide 20).
+
+O Teorema da Aproximação Universal (slides 11-13) garante que uma 
+rede com uma camada escondida e ativação não linear aproxima qualquer função contínua, 
+mas não indica a arquitetura nem os pesos. Esta classe implementa a propagação direta 
+e o treino por retropropagação, com momento (Parte 3, slides 41-44; Parte 4, slides 38-43).
 """
 
 
@@ -96,8 +91,6 @@ class RedeNeuronal:
         for camada in self.camadas:
             y = camada.propagar(y)
         return y
-
-
 
     def delta_saida(self, y_n, y):
         """

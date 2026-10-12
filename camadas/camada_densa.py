@@ -11,7 +11,7 @@ Cada camada n é caracterizada (slide 19) por:
     - vetor de saida y^n é criado aplicando a funcao de ativação à
     soma ponderada das entradas pelos respetivos pesos e somados os pendores
 
-Saída: h^n = x^n·W^n + b^n (soma ponderada + pendor) ou para uma camada K-> hₖⁿ = Σⱼ₌₁ᵐ (xⱼⁿ · wⱼₖⁿ) + bₖⁿ;
+Saída: h^n = x^n*W^n + b^n (soma ponderada + pendor)
 y^n = φ^n(h^n) (slides 19-20), onde os pesos e pendores de todas as camadas (exceto a de
 entrada) constituem os parâmetros θ da rede (slide 20).
 
@@ -19,15 +19,8 @@ Nesta implementação, em vez de uma única matriz W^n, cada Neuronio
 guarda o seu próprio vetor de pesos e pendor, equivalente a uma
 coluna de W^n e à componente k de b^n, em que propagar(x) invoca
 em cada neurónio, o que é matematicamente equivalente ao
-produto matricial x^n·W^n + b^n seguido de φ^n (ver exemplo REDE XOR,
+produto matricial x^n*W^n + b^n seguido de φ^n (ver exemplo REDE XOR,
 slides 22-27, onde os pesos são atribuídos neurónio a neurónio).
-
-É a organização em camadas escondidas que dá à rede a capacidade de separação não linear
-e as suas características principais (slides 28-29), como a extração
-progressiva de características mais abstratas, tolerância a ruído,
-processamento distribuído e escalabilidade mas à custa de maior
-dificuldade de interpretação e necessidade de mais dados de treino
-(slides 30-31).
 """
 
 
@@ -55,7 +48,7 @@ class CamadaDensa:
     def propagar(self, x):
         """
         Propaga o vetor de entrada x por cada neurónio da camada,
-        calculando y^n = φ^n(x^n·W^n + b^n) de forma distribuída
+        calculando y^n = φ^n(x^n*W^n + b^n) de forma distribuída
         (um neurónio por componente da saída).
 
         Args:

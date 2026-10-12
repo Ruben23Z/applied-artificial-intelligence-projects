@@ -12,7 +12,10 @@ Derivada, que só depende da própria função:
 class Sigmoid(FuncAtivacao):
 
     def calcular(self, h):
-        return 1 / (1 + math.exp(-h))
+        if h >= 0:
+            return 1 / (1 + math.exp(-h))
+        e = math.exp(h)  # não faz overflow
+        return e / (1 + e)
 
     def derivada(self, h):
         phi = self.calcular(h)

@@ -11,7 +11,7 @@ Derivada: φ'(h) = 1 - tanh(h)².
 class Tanh(FuncAtivacao):
 
     def calcular(self, h):
-        return (math.exp(h) - math.exp(-h)) / (math.exp(h) + math.exp(-h))
+        return math.tanh(h)
 
     def derivada(self, h):
         tanh = self.calcular(h)
