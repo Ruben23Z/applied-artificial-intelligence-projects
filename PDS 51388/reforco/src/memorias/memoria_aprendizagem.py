@@ -1,7 +1,7 @@
 """
 Memória de aprendizagem (Aprendizagem por Reforço Parte 1, slides 5-9 e 21)
 
-O agente quer saber que ação fazer em cada estado s, ara isso precisa do valor
+O agente quer saber que ação fazer em cada estado s, para isso precisa do valor
 de cada ação, U(s, a), que é o retorno esperado de fazer a no estado s e continuar
 a decidir a partir daí (slide 5):
 
@@ -18,7 +18,7 @@ experiência é uma amostra do valor esperado, e com amostras estima-se o valor
 
 A memória de aprendizagem é onde o agente guarda as estimativas Q(s, a).
 
-Esta classe define uma memória, onde serve para ler Q(s, a) e guardar Q(s, a).
+Esta classe define uma memória, onde serve para ler e guardar Q(s, a).
 """
 
 

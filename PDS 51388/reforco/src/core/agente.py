@@ -24,15 +24,17 @@ class Agente:
         Recebe o ambiente e o método de aprendizagem, por exemplo, um Sarsa. A
         estratégia de seleção de ação está em controlo.sel_accao.
 
-        :argument ambiente: Ambiente com o qual o agente interage.
-        :argument controlo: Método de aprendizagem, por exemplo, um Sarsa.
+        Args:
+            ambiente: ambiente com o qual o agente interage.
+            controlo: Método de aprendizagem, por exemplo, um Sarsa.
         """
         self.ambiente = ambiente
         self.controlo = controlo
 
     def treinar(self, num_episodios):
         """Corre num_episodios episódios e aprende em cada passo
-        :argument num_episodios: Número de episódios a executar.
+        Args:
+             num_episodios: número de episódios a executar.
         """
         sel_accao = self.controlo.sel_accao
         for _ in range(num_episodios):

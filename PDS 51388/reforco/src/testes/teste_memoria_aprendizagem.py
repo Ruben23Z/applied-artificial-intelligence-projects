@@ -13,6 +13,8 @@ preferência por nenhuma ação. Se for maior, por exemplo 5.0, as ações por
 experimentar parecem melhores do que as já testadas, o que obriga o agente
 a experimentá-las.
 """
+
+
 def teste_memoria():
     m = MemoriaAprendizagem()
     print("q(1, 'a') sem entrada devolve o valor por omissão (esperado 0.0):", m.q(1, 'a'))

@@ -9,8 +9,7 @@ são de 1 a 7 e as ações são ESQUERDA e DIREITA. A transição é determinist
 estados de 2 a 6, e os estados 1 e 7 não têm estados seguintes. A recompensa é 1
 ao chegar ao estado 7, -1 ao chegar ao estado 1 e 0 nos outros casos.
 
-Descreve o mesmo corredor de testes com o modelo explícito T(s, a, sn), R(s, a, sn), suc(s), accoes(s) e gama. 
-Com isso o PDM calcula a utilidade e a politica diretamente.
+Com o modelo explícito, o PDM calcula a utilidade e a política diretamente.
 """
 
 
@@ -21,6 +20,9 @@ class PDMCorredor(PDM):
                          self._accoes, self._T, self._R, self._suc, gama)
 
     def _accoes(self, s):
+        if s == 1 or s == 7:
+            return []
+
         return [AmbienteCorredor.ESQUERDA, AmbienteCorredor.DIREITA]
 
     def _T(self, s, a, sn):

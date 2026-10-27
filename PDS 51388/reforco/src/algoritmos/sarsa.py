@@ -26,7 +26,7 @@ depois, por isso o J é só a recompensa observada (slide 25).
 A diferença entre o J e a estimativa antiga é o erro de estimativa. O alfa é o
 fator de aprendizagem e decide que parte desse erro entra em Q(s, a).
 Perto de 0 pesam mais as recompensas antigas e perto de 1 pesam mais as recentes.
-    -> Q(s, a) = Q(s, a) + αlfa * (r + γQ(s’, a’) – Q(s, a))
+    -> Q(s, a) = Q(s, a) + αlfa * (r + gama*Q(sn, an) – Q(s, a))
     -> Q(s, a) = Q(s, a) + alfa * (J - Q(s, a))
 """
 

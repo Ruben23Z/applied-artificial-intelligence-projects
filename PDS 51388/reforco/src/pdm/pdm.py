@@ -1,51 +1,35 @@
 """
-Processos de Decisão Sequencial slides 11 e 32 a 34- Processo de decisão de Markov
+Processos de Decisão Sequencial, slides 11 e 32 a 34.
 
-Um PDM tem cinco componentes:
-    1. estados, o conjunto S dos estados
-    2. accoes(s), as ações A(s) possíveis no estado s
-    3. T(s, a, sn), a probabilidade de passar de s para sn ao fazer a
-    4. R(s, a, sn), a recompensa por passar de s para sn ao fazer a gama, o fator de desconto
+PDM com modelo conhecido, definido por cinco componentes:
+    - estados, o conjunto S
+    - accoes(s), as ações A(s) possíveis em s
+    - T(s, a, sn), probabilidade de ir de s para sn com a ação a
+    - R(s, a, sn), recompensa de ir de s para sn com a ação a
+    - gama, o fator de desconto
+    - suc(s) devolve os estados seguintes possíveis a partir de s.
 
-O método suc(s) devolve os estados seguintes possíveis a partir de s.
-A utilidade de uma ação é o valor esperado do que se ganha ao fazê-la.
 Uaccao(s, a, U) = soma sobre sn em suc(s) de T(s, a, sn) * (R(s, a, sn) + gama * U(sn))
-A utilidade de um estado é a da melhor ação. Começa-se com U(s) igual a 0 e
-repete-se o cálculo, sempre sobre uma cópia do U anterior, até o erro delta ser
-menor ou igual a delta_max. O erro é a maior diferença entre o U novo e o anterior.
-A política é a ação de maior utilidade em cada estado.
-_-----------------------------------------------------------------------------
-
-
-Política comportamental determinista (Processos de Decisão Sequencial,
-slides 19, 20 e 34).
-
-Uma política representa o comportamento do agente, que define que ação realizar
-em cada estado. Esta é determinista, ou seja, indica uma só
-ação por estado, em vez de uma probabilidade por par (estado, ação).
-
-A política ótima escolhe em cada estado a ação de maior utilidade (slide 34):
-    -> pi(s) = argmax sobre a em A(s) de Uaccao(s, a, U)
-
-Em PDM, Uaccao calcula-se com os modelos T e R. Na aprendizagem por
-reforço esses modelos não existem, por isso o valor da ação é a estimativa
-Q(s, a) guardada na memória de aprendizagem
+A utilidade de um estado é a da melhor ação. Calcula-se por iteração, sempre
+sobre uma cópia Uant, e para quando delta <= delta_max, em que delta é a maior
+diferença entre U e Uant. A política é a ação de maior Uaccao em cada estado.
+Os estados terminais não têm ações, ficam com U = 0 e não entram na política.
 """
 
 
 class PDM:
     """Modelo do mundo e cálculo da utilidade e da política."""
 
-    def __init__(self, estados, accoes, T, R, Ssucessivo, gama, delta_max=1e-6):
+    def __init__(self, estados, accoes, T, R, suc, gama, delta_max=1e-6):
         """
         Recebe a lista dos estados, as funções accoes(s), T(s, a, sn), R(s, a, sn)
-        e Ssucessivo(s), e o fator de desconto gama.
+        e suc(s), e o fator de desconto gama.
         """
         self.estados = estados
         self.accoes = accoes
         self.T = T
         self.R = R
-        self.Ssucessivo = Ssucessivo
+        self.suc = suc
         self.gama = gama
         self.delta_max = delta_max
 
@@ -61,11 +45,10 @@ class PDM:
             Uant = U.copy()
             delta = 0
             for s in S:
-                valores = []
-                for a in self.accoes(s):
-                    valores.append(self.Uaccao(s, a, Uant))
-                U[s] = max(valores)
-                delta = max(delta, abs(U[s] - Uant[s]))
+                accoes = self.accoes(s)
+                if accoes:  # terminais ficam com U = 0
+                    U[s] = max(self.Uaccao(s, a, Uant) for a in accoes)
+                    delta = max(delta, abs(U[s] - Uant[s]))
             if delta <= self.delta_max:
                 return U
 
@@ -77,9 +60,8 @@ class PDM:
 
     def politica(self, U):
         """
-        Devolve um dicionário que associa cada estado observado à ação com maior
-        Q(s, a). Os estados terminais não aparecem, porque o agente nunca age neles.
-
+        Devolve um dicionário estado -> ação de maior Uaccao(s, a, U).
+        Os estados terminais (sem ações) não entram
         """
         pi = {}
         for s in self.estados:

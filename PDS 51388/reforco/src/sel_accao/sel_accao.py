@@ -30,13 +30,12 @@ class SelAccao(ABC):
 
     def __init__(self, mem_aprend, accoes):
         """
-         Recebe a memória de aprendizagem onde se lê Q(s, a) e a lista das ações
+        Recebe a memória de aprendizagem onde se lê Q(s, a) e a lista das ações
         que o agente pode fazer. A lista é a mesma em todos os estados.
 
         Args:
             mem_aprend: memória de aprendizagem de onde se lê Q(s, a)
-            accoes: lista das ações que o agente pode fazer. A lista é a mesma
-                em todos os estados
+            accoes: lista das ações que o agente pode fazer. A lista é a mesma em todos os estados
         """
         self.mem_aprend = mem_aprend
         self.accoes = accoes
@@ -48,10 +47,10 @@ class SelAccao(ABC):
         escolhia sempre a primeira da lista, e no início, com todos os valores
         iguais ao valor por omissão, nunca experimentava as outras.
 
-           Args:
-               s: estado
-           Returns:
-               A ação sôfrega.
+        Args:
+           s: estado
+        Returns:
+           A ação sôfrega.
        """
 
         melhor_valor = None
@@ -68,12 +67,12 @@ class SelAccao(ABC):
 
         return random.choice(melhores_accoes)
 
-    def accao_exploraccao(self):
+    def accao_exploracao(self):
         """
-             Devolve uma ação ao acaso entre todas, todas com a mesma probabilidade
-             (slide 20). Pode devolver a ação sôfrega.
-             Returns:
-                 Uma ação.
+        Devolve uma ação ao acaso entre todas, todas com a mesma probabilidade
+        (slide 20). Pode devolver a ação sôfrega.
+        Returns:
+         Uma ação.
          """
         return random.choice(self.accoes)
 
