@@ -1,5 +1,5 @@
 """
-Memória de aprendizagem (Aprendizagem por Reforço Parte 1, slides 5-9 e 21)
+Memória de aprendizagem (Aprendizagem por Reforço Parte 1, slides 5-9 e 28)
 
 O agente quer saber que ação fazer em cada estado s, para isso precisa do valor
 de cada ação, U(s, a), que é o retorno esperado de fazer a no estado s e continuar
@@ -7,7 +7,7 @@ a decidir a partir daí (slide 5):
 
     -> U(s, a) = E[R(s, a, sn) + gama * U(sn, an)]
 
-Com o modelo de transição T(s, a, s') e o modelo de recompensa R(s, a, s'), o
+Com o modelo de transição T(s, a, sn) e o modelo de recompensa R(s, a, sn), o
 valor esperado calcula-se com uma soma sobre todos os estados seguintes sn
 (slide 6). O agente não tem esses modelos (slide 7). O que tem é experiência,
 faz a ação "a" no estado s, vê a recompensa r e o estado seguinte sn. Cada
@@ -28,7 +28,7 @@ class MemoriaAprendizagem:
     def __init__(self, valor_omissao=0.0):
         """Cria a tabela vazia. Os pares sem entrada devolvem valor_omissao."""
         self.valor_omissao = valor_omissao
-        self.Q = {}  # Memória de aprendizagem Q: (s,a) -> R
+        self.Q = {}  # Memória de aprendizagem Q: (s, a) -> R
         self.estados = set()  # Estados observados
 
     def q(self, s, a):

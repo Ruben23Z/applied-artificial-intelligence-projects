@@ -1,5 +1,5 @@
 """
-Algoritmo SARSA, Aprendizagem por Reforço Parte 1, slides 8-14 e 22-25.
+Algoritmo SARSA, Aprendizagem por Reforço Parte 1, slides 10-14 e 23-26.
 
 O agente não conhece o modelo do ambiente, estimando o valor de cada ação
 a partir da experiência. Cada passo dá uma amostra com a sequência(s, a, r, sn, an)
@@ -18,16 +18,16 @@ O J é o retorno da amostra, é o valor que a experiência atual sugere para
 Q(s, a), e é com ele que a estimativa antiga é comparada, dependendo das recompensas futuras
 Se sn não é terminal, o J junta a recompensa recebida com o valor estimado do
 que segue, descontado pelo gama(o fator de desconto).
-    -> J(s,a) = r + gama * Q(sn, an)
+    -> J(s, a) = r + gama * Q(sn, an)
 Se sn é terminal, o episódio acaba e não há ação seguinte nem recompensas
 depois, por isso o J é só a recompensa observada (slide 25).
-    -> J(s,a) = r
+    -> J(s, a) = r
 
 A diferença entre o J e a estimativa antiga é o erro de estimativa. O alfa é o
 fator de aprendizagem e decide que parte desse erro entra em Q(s, a).
 Perto de 0 pesam mais as recompensas antigas e perto de 1 pesam mais as recentes.
-    -> Q(s, a) = Q(s, a) + αlfa * (r + gama*Q(sn, an) – Q(s, a))
-    -> Q(s, a) = Q(s, a) + alfa * (J - Q(s, a))
+    Q(s, a) = Q(s, a) + αlfa * (r + gama*Q(sn, an) – Q(s, a)) ⇔
+    ⇔ Q(s, a) = Q(s, a) + alfa * (J - Q(s, a))
 """
 
 
@@ -46,7 +46,7 @@ class Sarsa:
 
     def aprender(self, s, a, r, sn, an=None):
         """
-        Lê Q(s, a) e Q(s', a') na memória, calcula o valor novo de Q(s, a) e guarda-o
+        Lê Q(s, a) e Q(sn, an) na memória, calcula o valor novo de Q(s, a) e guarda-o
         Args:
             s: estado
             a: ação feita em s

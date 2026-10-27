@@ -2,14 +2,14 @@ import random
 from abc import ABC, abstractmethod
 
 """
-Seleção de ação - Aprendizagem por Reforço Parte 1, slides 15-17 e 20
+Seleção de ação - Aprendizagem por Reforço Parte 1, slides 18 a 20
 
 Em cada estado o agente escolhe uma ação. O que sabe sobre o valor das ações
 está na memória de aprendizagem, em Q(s, a). Essas estimativas vêm da
 experiência, só existem para o que o agente já experimentou e mudam à medida
 que experimenta mais.
 
-Há duas maneiras de escolher (slide 15):
+Há duas maneiras de escolher (slide 18 e 19):
     1. Aproveitamento-> faz a ação com maior valor estimado, a ação sôfrega(greedy)
         a_t = a*
     2. Exploração-> fazer uma ação diferente da sôfrega, para ganhar experiência e corrigir as estimativas
@@ -17,7 +17,7 @@ Há duas maneiras de escolher (slide 15):
 
 Só aproveitar deixa o agente a repetir as ações que estimou com mais valor
 no início, sem testar as outras. Só explorar faz com que nunca use o que
-aprendeu. É o dilema de explorar ou aproveitar (slide 17).
+aprendeu. É o dilema de explorar ou aproveitar (slide 20).
 
 Cada estratégia de seleção responde a esta pergunta de maneira diferente.
 Esta classe tem o que é comum a todas, escolher a ação sôfrega e escolher uma

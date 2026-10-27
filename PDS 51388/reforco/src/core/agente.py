@@ -1,6 +1,6 @@
 """
 Agente, Processos de Decisão Sequencial slide 4 e Aprendizagem por Reforço
-Parte 1 slide 24.
+Parte 1 slide 26
 
 O agente executa uma ação "a" no ambiente, observa o estado seguinte sn e a
 recompensa r, e aprende, depois o agente atua.
@@ -32,7 +32,8 @@ class Agente:
         self.controlo = controlo
 
     def treinar(self, num_episodios):
-        """Corre num_episodios episódios e aprende em cada passo
+        """
+        Corre num_episodios episódios e aprende em cada passo
         Args:
              num_episodios: número de episódios a executar.
         """

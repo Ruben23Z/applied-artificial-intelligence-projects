@@ -10,6 +10,7 @@ A política é sôfrega e não explora. Permite ver o que o agente aprendeu,
 não para o treinar.
 """
 
+
 class Politica:
 
     def politica(self, mem_aprend, accoes):

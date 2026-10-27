@@ -7,9 +7,8 @@ move o agente uma posição. As transições são deterministas. A recompensa é
 chegar ao estado 1, +1 ao chegar ao estado 7 e 0 nos outros passos. Os estados 1
 e 7 são terminais. O episódio começa no estado 4, que é o estado médio.
 
-O agente tem acesso por interação, só se pode chamar iniciar() e executar(a), que devolve uma amostra(sn, r, terminou).
-O agente não vê as probabilidades nem as recompensas, só o que acontece, o que o SARSA usa com aprendizagem
-por reforço com o modelo desconhecido"""
+O agente só pode chamar iniciar() e executar(a). Esta devolve uma amostra (sn, r, terminou).
+Não vê as probabilidades nem as recompensas, só acontecendo, como no SARSA, que aprende sem conhecer o modelo."""
 
 
 class AmbienteCorredor:

@@ -7,8 +7,8 @@ PDM com modelo conhecido, definido por cinco componentes:
     - T(s, a, sn), probabilidade de ir de s para sn com a ação a
     - R(s, a, sn), recompensa de ir de s para sn com a ação a
     - gama, o fator de desconto
-    - suc(s) devolve os estados seguintes possíveis a partir de s.
 
+A função suc(s) devolve os estados seguintes possíveis a partir de s.
 Uaccao(s, a, U) = soma sobre sn em suc(s) de T(s, a, sn) * (R(s, a, sn) + gama * U(sn))
 A utilidade de um estado é a da melhor ação. Calcula-se por iteração, sempre
 sobre uma cópia Uant, e para quando delta <= delta_max, em que delta é a maior
@@ -54,7 +54,7 @@ class PDM:
 
     def Uaccao(self, s, a, U):
         """Devolve a utilidade da ação a no estado s, dado o dicionário U."""
-        soma = sum(self.T(s, a, sn) * (self.R(s, a, sn) + self.gama * U[sn]) for sn in self.Ssucessivo(s))
+        soma = sum(self.T(s, a, sn) * (self.R(s, a, sn) + self.gama * U[sn]) for sn in self.suc(s))
 
         return soma
 

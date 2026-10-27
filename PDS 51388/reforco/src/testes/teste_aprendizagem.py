@@ -13,11 +13,11 @@ def teste_sel_accao():
     """
     Testa a seleção de ação (Aprendizagem por Reforço Parte 1, slides 17 e 20).
 
-    accao_sofrega devolve a ação com maior Q(s, a). Com Q 1, 3 e 2 devolve a 1.
+    Accao_sofrega devolve a ação com maior Q(s, a). Com Q 1, 3 e 2 devolve a 1.
     Com valores iguais o shuffle faz com que todas as ações possam sair.
 
-    seleccionar_accao decide entre aproveitar e explorar com o epsilon. Com
-    epsilon 0 só aproveita, por isso sai sempre a ação sôfrega. Com epsilon 1
+    Seleccionar_accao decide entre aproveitar e explorar com o epsilon. Com
+    epsilon 0 só aproveita, saindo sempre a ação sôfrega. Com epsilon 1
     só explora, por isso cada ação sai cerca de um quarto das vezes. Com
     epsilon 0.2 e 4 ações, a fração de escolhas fora da sôfrega é 0.2 * 3 / 4
     igual a 0.15, porque a ação ao acaso também pode ser a sôfrega.
