@@ -1,12 +1,12 @@
 """
-Algoritmo SARSA, Aprendizagem por Reforço Parte 1, slides 10-14 e 23-26.
+Algoritmo SARSA, Aprendizagem por Reforço Parte 1, slides 10-14 e 21-25.
 
 O agente não conhece o modelo do ambiente, estimando o valor de cada ação
 a partir da experiência. Cada passo dá uma amostra com a sequência(s, a, r, sn, an)
 em que s é o estado, a é a ação feita em s, r a recompensa recebida, sn o estado
 seguinte e an a ação futura escolhida em sn.
 
-A aprendizagem com política de seleção de ação unica (on-policy).
+A aprendizagem com política de seleção de ação única (on-policy).
 A estratégia que escolhe as ações
 a executar é a mesma que serve para atualizar Q. A ação an usada na atualização
 é a que o agente vai mesmo executar a seguir, escolhida com a estratégia de
@@ -26,8 +26,8 @@ depois, por isso o J é só a recompensa observada (slide 25).
 A diferença entre o J e a estimativa antiga é o erro de estimativa. O alfa é o
 fator de aprendizagem e decide que parte desse erro entra em Q(s, a).
 Perto de 0 pesam mais as recompensas antigas e perto de 1 pesam mais as recentes.
-    Q(s, a) = Q(s, a) + αlfa * (r + gama*Q(sn, an) – Q(s, a)) ⇔
-    ⇔ Q(s, a) = Q(s, a) + alfa * (J - Q(s, a))
+    Q(s, a) = Q(s, a) + alfa * (r + gama*Q(sn, an) – Q(s, a)) <=>
+    <=> Q(s, a) = Q(s, a) + alfa * (J - Q(s, a))
 """
 
 
@@ -63,3 +63,19 @@ class Sarsa:
 
         Qn = q + self.alfa * (j - q)
         self.mem_aprend.actualizar(s, a, Qn)
+
+    def episodio(self, ambiente):
+        s = ambiente.iniciar()
+        a = self.sel_accao.seleccionar_accao(s)
+        terminou = False
+
+        while not terminou:
+            sn, r, terminou = ambiente.executar(a)
+            if terminou:
+                an = None
+            else:
+                an = self.sel_accao.seleccionar_accao(sn)
+
+            self.aprender(s, a, r, sn, an)
+            s = sn
+            a = an

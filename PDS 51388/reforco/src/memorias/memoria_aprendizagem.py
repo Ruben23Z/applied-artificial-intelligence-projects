@@ -1,11 +1,11 @@
 """
-Memória de aprendizagem (Aprendizagem por Reforço Parte 1, slides 5-9 e 28)
+Memória de aprendizagem (Aprendizagem por Reforço Parte 1, slides 5-9 e 21)
 
 O agente quer saber que ação fazer em cada estado s, para isso precisa do valor
 de cada ação, U(s, a), que é o retorno esperado de fazer a no estado s e continuar
 a decidir a partir daí (slide 5):
 
-    -> U(s, a) = E[R(s, a, sn) + gama * U(sn, an)]
+    -> U(s, a) = E[R(s, a, sn) + gama * U(sn)]
 
 Com o modelo de transição T(s, a, sn) e o modelo de recompensa R(s, a, sn), o
 valor esperado calcula-se com uma soma sobre todos os estados seguintes sn

@@ -2,7 +2,7 @@ import random
 from abc import ABC, abstractmethod
 
 """
-Seleção de ação - Aprendizagem por Reforço Parte 1, slides 18 a 20
+Seleção de ação - Aprendizagem por Reforço Parte 1, slides 15 e 16
 
 Em cada estado o agente escolhe uma ação. O que sabe sobre o valor das ações
 está na memória de aprendizagem, em Q(s, a). Essas estimativas vêm da
