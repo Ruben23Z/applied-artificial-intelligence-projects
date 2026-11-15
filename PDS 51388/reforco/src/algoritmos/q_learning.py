@@ -1,3 +1,26 @@
+"""
+Algoritmo Q-Learning, Aprendizagem por Reforço Parte 3, slides 6 a 9.
+
+Tal como o SARSA da Parte 1, estima Q(s, a) por amostragem, sem conhecer
+os modelos T e R, com a atualização por diferença temporal
+    -> Q(s, a) = Q(s, a) + alfa * (J - Q(s, a))
+
+A diferença está no retorno J. No SARSA, an é a ação que o agente executa
+ a seguir, podendo ser de exploração (on-policy).
+No Q-Learning, an é a ação sôfrega em sn, obtida com accao_sofrega, e
+    J = r + gama * max Q(sn, a')
+O agente executa ações com exploração, mas aprende o valor da política
+sofrega (off-policy). Isto aproxima a atualização da equação de Bellman
+dos Processos de Decisão Sequencial, em que U(s) é o máximo sobre as
+ações, agora estimado por amostras e não calculado com T e R. Q converge
+para Q* se cada par (s, a) for visitado um número ilimitado de vezes e
+alfa tender para 0 (slide 15).
+Em estado terminal não há ação seguinte e J é igual a r, onde O parâmetro final indica isso.
+
+O episódio segue o slide 9. A ação a escolhe-se em cada passo do ciclo e
+a ação de aprendizagem obtém-se dentro de aprender.
+O DynaQ e o QME herdam desta classe.
+"""
 from reforco.src.algoritmos.sarsa import Sarsa
 
 
@@ -5,17 +28,30 @@ class QLearning(Sarsa):
     def __init__(self, mem_aprend, sel_accao, alfa, gama):
         super().__init__(mem_aprend, sel_accao, alfa, gama)
 
-    # a minha duvida é que o prof nos slides, algumas funcoes não tem o final, e ao seguir os slides supostamente não
-    # deve ser cocoado o final. depois no q learning não ha verificacao se an é terminal e nem se usa o final. e
-    # ainda nao sei se o final tem valor por omissao
-    def aprender(self, s, a, r, sn, final):
-        # aqui finalpode ser none, faz sentido? depois tudo dos outros algoritmos precisam de final
-
-        an = self.sel_accao.accao_sofrega(sn)
+    def aprender(self, s, a, r, sn, final=False):
+        """
+        Atualiza Q(s, a) com an sôfrega em sn
+        Args:
+            s: estado
+            a: ação feita em s
+            r: recompensa recebida
+            sn: estado seguinte
+            final: se sn é terminal
+        """
+        if final:
+            an = None
+        else:
+            an = self.sel_accao.accao_sofrega(sn)
 
         super().aprender(s, a, r, sn, an)
 
     def episodio(self, ambiente):
+        """
+        Corre um episódio até um estado terminal
+        Args:
+           ambiente: ambiente com que o agente interage
+        """
+
         s = ambiente.iniciar()
         terminou = False
 

@@ -1,17 +1,17 @@
 from reforco.src.memorias.memoria_aprendizagem import MemoriaAprendizagem
 
 """
-Testa a memória de aprendizagem, que guarda Q(s, a).
+Testa a memória de aprendizagem, que guarda Q(s, a)
 
 Nos testes o 'a' é uma ação, o segundo elemento do par (s, a) que indexa
 Q(s, a). É só um nome qualquer, porque a memória aceita qualquer chave que
-se possa usar num dicionário. No corredor seriam -1 (ESQUERDA) e 1 (DIREITA).
+se possa usar num dicionário. No corredor seriam -1 (ESQUERDA) e 1 (DIREITA)
 
 O valor por omissão é o Q(s, a) que q devolve para um par que ainda não foi
 guardado com actualizar. Por defeito é 0.0, ou seja, o agente começa sem
 preferência por nenhuma ação. Se for maior, por exemplo 5.0, as ações por
 experimentar parecem melhores do que as já testadas, o que obriga o agente
-a experimentá-las.
+a experimentá-las
 """
 
 
@@ -36,14 +36,15 @@ if __name__ == "__main__":
 
 """
 Resultados
-q(1, 'a') sem entrada devolveu 0.0, e com valor por omissão 5.0 devolveu 5.0.
+q(1, 'a') sem entrada devolveu 0.0, e com valor por omissão 5.0 devolveu 5.0
 Depois de actualizar(1, 'a', 2.5), q(1, 'a') devolveu 2.5. Depois de
 actualizar(1, 'a', 4.0), devolveu 4.0. obter_estados devolveu {1, 2}, sem o
-estado 3, que só foi lido com q.
+estado 3, que só foi lido com q
 
 Conclusões
 Um par nunca guardado devolve o valor por omissão, que se escolhe ao criar a
 memória. Guardar o mesmo par duas vezes deixa só o último valor. Só actualizar
 regista o estado como observado, ler com q não regista. Isto interessa à
-política, que só decide nos estados em que o agente já agiu.
+política, que só decide nos estados em que o agente já agiu
 """
+

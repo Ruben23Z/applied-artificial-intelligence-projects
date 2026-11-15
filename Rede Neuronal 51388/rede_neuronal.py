@@ -2,7 +2,6 @@ from camadas.camada_densa import CamadaDensa
 from camadas.camada_entrada import CamadaEntrada
 
 """Rede neuronal (RNA Parte 2, slides 1-21, 37-38) 
-Foi utilizado AI para o apoio na criação da documentação das diferentes classes 
 
 Composta por uma camada de entrada seguida de uma ou mais camadas
 densas (escondidas e a de saída), interligadas sequencialmente(slide 15). 
@@ -23,8 +22,9 @@ Os pesos e pendores de todas as camadas (exceto a de entrada) formam os parâmet
 
 O Teorema da Aproximação Universal (slides 11-13) garante que uma 
 rede com uma camada escondida e ativação não linear aproxima qualquer função contínua, 
-mas não indica a arquitetura nem os pesos. Esta classe implementa a propagação direta 
-e o treino por retropropagação, com momento (Parte 3, slides 41-44; Parte 4, slides 38-43).
+mas não indica a arquitetura nem os pesos.
+
+Esta classe implementa a propagação direta e o treino por retropropagação, com momento (Parte 3, slides 41-44; Parte 4, slides 38-43).
 """
 
 

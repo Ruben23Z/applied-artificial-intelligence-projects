@@ -37,7 +37,7 @@ class Sarsa:
     def __init__(self, mem_aprend, sel_accao, alfa, gama):
         """
         Recebe a memória de aprendizagem, a estratégia de seleção de ação, o
-        fator de aprendizagem alfa e o fator de desconto gama, ambos entre 0 e 1.
+        fator de aprendizagem alfa e o fator de desconto gama, ambos entre 0 e 1
         """
         self.mem_aprend = mem_aprend
         self.sel_accao = sel_accao
@@ -79,3 +79,4 @@ class Sarsa:
             self.aprender(s, a, r, sn, an)
             s = sn
             a = an
+

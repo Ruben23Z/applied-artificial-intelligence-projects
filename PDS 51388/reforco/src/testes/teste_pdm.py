@@ -12,7 +12,7 @@ e a recompensa conta-se na transição para lá.
        Uaccao(5, DIREITA) com U(6) = 1: 0 + 0.9 * 1 = 0.9
        Uaccao(3, ESQUERDA) com U(2) = -1: 0 + 0.9 * (-1) = -0.9
    As duas primeiras testam o termo da recompensa e as duas últimas o termo
-   descontado. Os valores de U(6) e U(2) são artificiais.
+   descontado. Os valores de U(6) e U(2) são artificiais
 
 2. utilidade (slides 32 e 33)
    O valor de cada estado é o da melhor ação e propaga-se a partir do
@@ -20,9 +20,9 @@ e a recompensa conta-se na transição para lá.
        U(6) = 1, U(5) = 0.9, U(4) = 0.81, U(3) = 0.729, U(2) = 0.656, U(1) = U(7) = 0
 
 3. politica (slide 34)
-   No estado 4, DIREITA vale 0.9 * 0.9 = 0.81 e ESQUERDA vale 0.9 * 0.729 = 0.656.
+   No estado 4, DIREITA vale 0.9 * 0.9 = 0.81 e ESQUERDA vale 0.9 * 0.729 = 0.656
    O mesmo acontece nos estados de 2 a 6, por isso a política esperada é
-   DIREITA (1) nesses estados. Os terminais não aparecem, porque não têm ações.
+   DIREITA (1) nesses estados. Os terminais não aparecem, porque não têm ações
 """
 from reforco.src.corredor.ambiente_corredor import AmbienteCorredor
 from reforco.src.corredor.pdm_corredor import PDMCorredor
@@ -72,5 +72,6 @@ politica (esperado só os estados 2 a 6, todos DIREITA = 1): {2: 1, 3: 1, 4: 1, 
 O PDM calcula a utilidade e a política só com o modelo, por programação
 dinâmica. A utilidade desce 0.9 por cada passo de distância ao estado 7 e a
 política é DIREITA nos estados de 2 a 6. Os estados terminais não aparecem na
-política. Esta política serve de referência para o teste do SARSA.
+política. Esta política serve de referência para o teste do SARSA
 """
+

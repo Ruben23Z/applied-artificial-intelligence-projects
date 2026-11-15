@@ -2,14 +2,13 @@ from reforco.src.pdm.pdm import PDM
 from reforco.src.corredor.ambiente_corredor import AmbienteCorredor
 
 """
-PDM de teste, Processos de Decisão Sequencial slide 12.
+PDM de teste, Processos de Decisão Sequencial slide 12
 
 É o mesmo corredor do AmbienteCorredor, agora com o modelo conhecido. Os estados
 são de 1 a 7 e as ações são ESQUERDA e DIREITA. A transição é determinista nos
 estados de 2 a 6, e os estados 1 e 7 não têm estados seguintes. A recompensa é 1
-ao chegar ao estado 7, -1 ao chegar ao estado 1 e 0 nos outros casos.
-
-Com o modelo explícito, o PDM calcula a utilidade e a política diretamente.
+ao chegar ao estado 7, -1 ao chegar ao estado 1 e 0 nos outros casos
+Com o modelo explícito, o PDM calcula a utilidade e a política diretamente
 """
 
 
@@ -37,3 +36,4 @@ class PDMCorredor(PDM):
 
     def _suc(self, s):
         return [] if s in (1, 7) else [s - 1, s + 1]
+

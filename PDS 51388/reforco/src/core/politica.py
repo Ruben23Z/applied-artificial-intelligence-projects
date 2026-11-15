@@ -16,7 +16,7 @@ class Politica:
     def politica(self, mem_aprend, accoes):
         """
         Devolve um dicionário que associa cada estado observado à ação com maior
-        Q(s, a). Os estados terminais não aparecem, porque o agente nunca age neles.
+        Q(s, a). Os estados terminais não aparecem, porque o agente nunca age neles
         """
         pi = {}
         for s in mem_aprend.obter_estados():
