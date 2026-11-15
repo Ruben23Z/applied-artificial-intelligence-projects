@@ -1,5 +1,5 @@
 """
-Algoritmo Dyna-Q, Aprendizagem por Reforço Parte 4, slides 13 a 17 e 21.
+Algoritmo Dyna-Q, Aprendizagem por Reforço Parte 4, slides 13 a 17 e 21
 
 Junta a aprendizagem direta, sendo o passo do Q-Learning, com
 planeamento a partir de um modelo do mundo aprendido. A cada paço real o
@@ -10,15 +10,12 @@ interação com o ambiente.
 O modelo é a versão aprendida das funções T e R que os Processos de
 Decisão Sequencial assumem conhecidas. Com num_sim igual a 0 o
 comportamento é o do Q-Learning. Com num_sim maior, cada experiência real
-propaga valor várias vezes, reduzindo o número de episódios necessários
-(slide 17).
+propaga valor várias vezes, reduzindo o número de episódios necessários(slide 17)
 
 Tem o mesmo objetivo do QME, que é complementar a experiência
 real com atualizações adicionais, mas as amostras vêm dum modelo
 aprendido e não das experiências guardadas.
-
-As amostras do modelo não guardam final, tal como no slide 22. Num estado
-terminal Q(sn, a) mantém o valor por omissão da memória, por isso com 0.0
+Num estado terminal Q(sn, a) mantém o valor por omissão da memória, por isso com 0.0
 o J fica igual a r.
 """
 from reforco.src.algoritmos.q_learning import QLearning

@@ -26,7 +26,6 @@ class MemoriaAprendizagem:
     """Tabela Q(s, a) com valor por omissão"""
 
     def __init__(self, valor_omissao=0.0):
-        """Cria a tabela vazia. Os pares sem entrada devolvem valor_omissao"""
         self.valor_omissao = valor_omissao
         self.Q = {}  # Memória de aprendizagem Q: (s, a) -> R
         self.estados = set()  # Estados observados

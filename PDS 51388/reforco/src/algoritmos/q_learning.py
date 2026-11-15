@@ -16,10 +16,6 @@ ações, agora estimado por amostras e não calculado com T e R. Q converge
 para Q* se cada par (s, a) for visitado um número ilimitado de vezes e
 alfa tender para 0 (slide 15).
 Em estado terminal não há ação seguinte e J é igual a r, onde O parâmetro final indica isso.
-
-O episódio segue o slide 9. A ação a escolhe-se em cada passo do ciclo e
-a ação de aprendizagem obtém-se dentro de aprender.
-O DynaQ e o QME herdam desta classe.
 """
 from reforco.src.algoritmos.sarsa import Sarsa
 
@@ -31,12 +27,6 @@ class QLearning(Sarsa):
     def aprender(self, s, a, r, sn, final=False):
         """
         Atualiza Q(s, a) com an sôfrega em sn
-        Args:
-            s: estado
-            a: ação feita em s
-            r: recompensa recebida
-            sn: estado seguinte
-            final: se sn é terminal
         """
         if final:
             an = None
@@ -48,8 +38,6 @@ class QLearning(Sarsa):
     def episodio(self, ambiente):
         """
         Corre um episódio até um estado terminal
-        Args:
-           ambiente: ambiente com que o agente interage
         """
 
         s = ambiente.iniciar()

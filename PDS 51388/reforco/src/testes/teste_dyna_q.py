@@ -7,12 +7,7 @@ from reforco.src.sel_accao.egreedy import EGreedy
 
 
 def teste_aprender():
-    """Testa o passo do Dyna-Q (Parte 4, slides 14 e 21).
-
-    Com Q(sn, a) 0, r 1, alfa 0.5 e gama 0.9, o paço real dá Q(s, a) = 0.5 e o
-    modelo guarda sn e r. Cada simulação repete o passo com o único par do
-    modelo, por isso Q passa a 0.75, 0.875 e 0.9375 com 1, 2 e 3 simulações
-    Com num_sim 0 é o Q-Learning
+    """Testa o passo do Dyna-Q (Parte 4, slides 14 e 21)
     """
     epsilon = 0
     alfa = 0.5
@@ -24,15 +19,15 @@ def teste_aprender():
     dyna = DynaQ(memoria, seletor, alfa, gama, numero_simulacoes)
     dyna.aprender('s', 'a', 1.0, 'sn', False)
     print("Q com zero simulações. Esperado: 0.5. Obtido:", memoria.q("s", "a"))
-    # O modelo deve guardar o estado seguinte e a recompensa.
+
     estado_seguinte_guardado = dyna.modelo.T[("s", "a")]
     recompensa_guardada = dyna.modelo.R[("s", "a")]
 
     print("Estado seguinte guardado. Esperado: sn. Obtido:", estado_seguinte_guardado)
     print("Recompensa guardada. Esperado: 1.0. Obtida:", recompensa_guardada)
 
-    # Cada caso começa com uma memória nova.
-    # Assim, os casos não interferem entre si.
+    # Cada caso começa com uma memória nova
+    # Assim, os casos não interferem entre si
     casos_de_simulacao = ((1, 0.75), (2, 0.875), (3, 0.9375))
 
     for numero_simulacoes, valor_esperado in casos_de_simulacao:
@@ -57,12 +52,6 @@ def teste_aprender():
 
 
 def episodios_ate_valor(num_sim, semente, alvo=0.7, max_episodios=500):
-    """
-    Treina o Dyna-Q até Q(4, DIREITA) atingir o alvo
-    Devolve o número de episódios usados
-    Devolve None se não atingir o alvo dentro do limite
-    """
-
     random.seed(semente)
 
     ambiente = AmbienteCorredor()
@@ -111,8 +100,8 @@ if __name__ == "__main__":
 Conclusões
 
 teste_aprender
-Q foi 0.5 com num_sim 0 e 0.75, 0.875 e 0.9375 com 1, 2 e 3. Em estado terminal
-o resultado é igual, porque o modelo não guarda final e Q(sn, a) vale 0
+Q foi 0.5 com num_sim 0 e 0.75, 0.875 e 0.9375 com 1, 2 e 3. 
+Em estado terminal o resultado é igual, porque o modelo não guarda final e Q(sn, a) vale 0
 
 
 Resultados:
@@ -126,4 +115,3 @@ Q no caso terminal com três simulações. Esperado: 0.9375. Obtido: 0.9375
 Com 0 simulações, o alvo foi atingido ao fim de 46 episódios
 Com 3 simulações, o alvo foi atingido ao fim de 19 episódios
 """
-

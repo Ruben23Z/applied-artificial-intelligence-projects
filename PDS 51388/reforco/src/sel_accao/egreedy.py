@@ -6,9 +6,9 @@ Em cada passo o agente faz uma de duas escolhas:
 
 Com epsilon igual a 0 o agente só aproveita os caminhos com maior valor de utilidade, bom para quando o modelo já
 está totalmente treinado
-Com epsilon igual a 1 só explora. O valor de epsilon não muda ao longo da aprendizagem
+Com epsilon igual a 1 só explora.
 A ação ao acaso é escolhida entre todas as ações, podendo coincidir com a
-ação sôfrega
+ação sôfrega.O valor de epsilon não muda ao longo da aprendizagem
 """
 import random
 from reforco.src.sel_accao.sel_accao import SelAccao
@@ -18,10 +18,6 @@ class EGreedy(SelAccao):
     """Escolhe ações com probabilidade fixa de exploração"""
 
     def __init__(self, mem_aprend, accoes, epsilon):
-        """
-        Recebe a memória de aprendizagem, a lista das ações e a probabilidade
-        epsilon de explorar, entre 0 e 1
-        """
         super().__init__(mem_aprend, accoes)
         self.epsilon = epsilon
 

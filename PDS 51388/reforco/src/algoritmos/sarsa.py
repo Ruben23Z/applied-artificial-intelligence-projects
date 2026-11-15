@@ -7,12 +7,11 @@ em que s é o estado, a é a ação feita em s, r a recompensa recebida, sn o es
 seguinte e an a ação futura escolhida em sn.
 
 A aprendizagem com política de seleção de ação única (on-policy).
-A estratégia que escolhe as ações
-a executar é a mesma que serve para atualizar Q. A ação an usada na atualização
+A estratégia que escolhe as ações a executar é a mesma que serve para atualizar Q.
+A ação an usada na atualização
 é a que o agente vai mesmo executar a seguir, escolhida com a estratégia de
 seleção, por exemplo, epsilon-greedy. Como a estratégia tem exploração, an pode
 ser uma ação de exploração.
-
 
 O J é o retorno da amostra, é o valor que a experiência atual sugere para
 Q(s, a), e é com ele que a estimativa antiga é comparada, dependendo das recompensas futuras
@@ -32,12 +31,11 @@ Perto de 0 pesam mais as recompensas antigas e perto de 1 pesam mais as recentes
 
 
 class Sarsa:
-    """Aprendizagem por reforço SARSA."""
 
     def __init__(self, mem_aprend, sel_accao, alfa, gama):
         """
         Recebe a memória de aprendizagem, a estratégia de seleção de ação, o
-        fator de aprendizagem alfa e o fator de desconto gama, ambos entre 0 e 1
+        fator de aprendizagem alfa e o fator de desconto gama, entre 0 e 1
         """
         self.mem_aprend = mem_aprend
         self.sel_accao = sel_accao
@@ -47,12 +45,6 @@ class Sarsa:
     def aprender(self, s, a, r, sn, an=None):
         """
         Lê Q(s, a) e Q(sn, an) na memória, calcula o valor novo de Q(s, a) e guarda-o
-        Args:
-            s: estado
-            a: ação feita em s
-            r: recompensa recebida
-            sn: estado seguinte
-            an: ação escolhida em sn. None se sn é terminal
         """
         q = self.mem_aprend.q(s, a)
         if an is None:  # Verifica se o próximo estado é terminal

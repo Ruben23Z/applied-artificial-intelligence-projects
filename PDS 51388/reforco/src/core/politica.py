@@ -6,7 +6,7 @@ Uma política representa o comportamento do agente: define que ação realizar
 em cada estado. Esta é determinista, ou seja, indica uma só
 ação por estado, em vez de uma probabilidade por par (estado, ação).
 
-A política é sôfrega e não explora. Permite ver o que o agente aprendeu,
+A política é sofrega e não explora. Permite ver o que o agente aprendeu,
 não para o treinar.
 """
 

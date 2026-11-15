@@ -25,7 +25,7 @@ from reforco.src.memorias.memoria_experiencia import MemoriaExperiencia
 class QME(QLearning):
 
     def __init__(self, mem_aprend, sel_accao, alfa, gama, num_sim, dim_max):
-        """Cria o Q-Learning com memória de experiência"""
+        """Q-Learning com memória de experiencia"""
         super().__init__(mem_aprend, sel_accao, alfa, gama)
         self.num_sim = num_sim
         self.dim_max = dim_max
@@ -35,7 +35,7 @@ class QME(QLearning):
 
     def aprender(self, s, a, r, sn, final):
         """
-        Atualiza Q, guarda a experiência na memória e recorda
+        Atualiza Q e guarda a experiência na memória
         Args:
            s: estado
            a: ação feita em s
@@ -49,7 +49,6 @@ class QME(QLearning):
         self.simular()
 
     def simular(self):
-        """Repete o passo de aprendizagem com até num_sim experiências recordadas"""
         amostras = self.memoria_experiencia.amostrar(self.num_sim)
 
         for (s, a, r, sn) in amostras:

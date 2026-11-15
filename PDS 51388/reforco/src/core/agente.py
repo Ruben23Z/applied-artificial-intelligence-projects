@@ -6,7 +6,7 @@ O agente executa uma ação a no ambiente, observa o estado seguinte sn e a
 recompensa r, e aprende com essa experiência. Não conhece o algoritmo de
 aprendizagem. Em cada episódio entrega o ambiente ao controlo, que corre o
 ciclo do algoritmo no método episodio. No SARSA a ação an escolhe-se antes de
-aprender. No Q-Learning, no Dyna-Q e no QME a ação de aprendizagem é a sôfrega
+aprender. No Q-Learning, no Dyna-Q e no QME a ação de aprendizagem é a sofrega
 e obtém-se dentro de aprender. Assim o mesmo Agente serve todos os algoritmos.
 """
 
@@ -18,10 +18,7 @@ class Agente:
         """
         Recebe o ambiente e o método de aprendizagem, por exemplo, um Sarsa
         A estratégia de seleção de ação está em controlo.sel_accao.
-
-        Args:
-            ambiente: ambiente com o qual o agente interage
-            controlo: Método de aprendizagem, por exemplo, um Sarsa
+        controlo é o método de aprendizagem, por exemplo, um Sarsa
         """
         self.ambiente = ambiente
         self.controlo = controlo

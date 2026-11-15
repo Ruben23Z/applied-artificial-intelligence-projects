@@ -27,11 +27,6 @@ class ModeloTR:
     def actualizar(self, s, a, r, sn):
         """
         Guarda sn e r para o par (s, a)
-        Args:
-            s: estado
-            a: ação feita em s
-            r: recompensa recebida
-            sn: estado seguinte
         """
         self.T[(s, a)] = sn  # Atualizar modelo de transição (determinista)
         self.R[(s, a)] = r  # Atualizar modelo de recompensa (determinista)
