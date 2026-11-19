@@ -20,7 +20,6 @@ class GraficoLinhas(tk.Canvas):
         self.base = altura - MARGEM_BASE
 
     def desenhar(self, series):
-        """Series associa um nome a um par (valores, cor)"""
         self.delete("all")
         todos = [v for valores, cor in series.values() for v in valores]
         n = max([len(valores) for valores, cor in series.values()] + [2])
@@ -56,7 +55,6 @@ class GraficoLinhas(tk.Canvas):
             self.create_line(self.esquerda, zero, self.direita, zero, fill="#cccccc", dash=(2, 2))
 
     def indices_a_desenhar(self, total):
-        """Salta alguns pontos quando há muitos, mas garante sempre o último"""
         salto = max(1, total // MAX_PONTOS)
         indices = list(range(0, total, salto))
         if indices[-1] != total - 1:

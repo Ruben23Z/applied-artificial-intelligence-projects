@@ -12,9 +12,10 @@ PENALIZACAO_FIM = 10
 
 class AmbienteTetris:
     """
-    Uma posição da peça é um tuplo (rotação, coluna, linha).
+    Uma posição da peça é um tuplo (rotação, coluna, linha)
     A peça nasce ao centro da linha de cima e só pode descer, andar para os lados ou rodar,
-    sempre sem tocar em nada. Para cada ação do agente escolhe a rotação e a coluna onde a peça deve pousar
+    sempre sem tocar em nada
+    Para cada ação do agente escolhe a rotação e a coluna onde a peça deve pousar
     """
 
     def __init__(self, colunas=6, linhas=12, combo=False):
@@ -99,6 +100,12 @@ class AmbienteTetris:
 
     def pontos_da_jogada(self, limpas):
         return PONTOS_POR_LINHA * limpas * self.multiplicador(limpas)
+
+
+
+
+
+
 
     # ------------------------------------------------------------------
     # Movimentos da peça
@@ -202,8 +209,13 @@ class AmbienteTetris:
 
     def posicoes_com_forma(self, distancias, forma, x, y):
         """Posições alcançáveis com esta forma, coluna e linha, mesmo que a rotação seja outra"""
-        return [p for p in distancias if self.forma_em(p[0]) == forma and p[1] == x and p[2] == y]
+        resultado = []
 
+        for p in distancias:
+            if self.forma_em(p[0]) == forma and p[1] == x and p[2] == y:
+                resultado.append(p)
+
+        return resultado
     def alcanca(self, rotacao, forma, x, y):
         if self.caminho_direto(rotacao, x):
             return True
@@ -212,7 +224,7 @@ class AmbienteTetris:
 
     def destino(self, a):
         """
-        Devolve a forma, a coluna e a linha onde a peça vai mesmo pousar com a ação a.
+        Devolve a forma, a coluna e a linha onde a peça vai mesmo pousar com a ação a
         Se não houver caminho livre até ao alvo, a peça cai a direito onde nasceu
         """
         alvo = self.alvo(a)
@@ -226,49 +238,74 @@ class AmbienteTetris:
 
     def trajectoria(self, a):
         """
-        Devolve os quadros (forma, coluna, linha) que a peça percorre desde que nasce até pousar.
-        Em cada quadro a peça ou desce uma linha, ou faz um só movimento, e nunca as duas coisas.
+        Devolve os quadros (forma, coluna, linha) que a peça percorre desde que nasce até pousar
         Serve só para mostrar a jogada, quem decide o resultado é o executar
         """
         if not self.nasce_livre():
             return None
         forma, x, y = self.destino(a)
-        distancias, antes = self.explorar()
-        objetivos = self.posicoes_com_forma(distancias, forma, x, y)
-        objetivo = min(objetivos, key=lambda p: distancias[p])
-        caminho = self.caminho_alternado(objetivo, antes)
-        return [(self.forma_em(r), px, py) for r, px, py in caminho]
+        inicio = self.posicao_inicial()
+        anterior = {inicio: None}
+        fila = deque([inicio])
 
-    def caminho_alternado(self, objetivo, antes):
+        while fila:
+            atual = fila.popleft()
+            if self.forma_em(atual[0]) == forma and atual[1] == x and atual[2] == y:
+                break
+            for _, seguinte in self.movimentos(atual):
+                if seguinte not in anterior:
+                    anterior[seguinte] = atual
+                    fila.append(seguinte)
+        caminho = []
+        while atual is not None:
+            caminho.append((self.forma_em(atual[0]), atual[1], atual[2]))
+            atual = anterior[atual]
+        return caminho[::-1]
+
+    def caminho_alternado(self, objetivo, distancias, antes):
         """
-        Escolhe, entre os caminhos mais curtos, um que alterna entre descer e fazer um movimento.
-        Assim os movimentos vão acontecendo enquanto a peça cai, e não todos no topo
+        Escolhe, entre os caminhos mais curtos, um que alterna entre descer e fazer um movimento
+        Assim os movimentos vão a acontecer enquanto a peça cai, e não todos no topo
         """
-        # primeiro juntam-se as posições que fazem parte de algum caminho mais curto até ao objetivo
-        boas = set()
+        # posições que fazem parte de algum caminho mais curto até ao objetivo
+        boas = {objetivo}
         por_visitar = [objetivo]
         while por_visitar:
             posicao = por_visitar.pop()
-            if posicao in boas:
-                continue
-            boas.add(posicao)
-            por_visitar.extend(anterior for anterior, movimento in antes[posicao])
-
-        seguintes = {}
-        for posicao in boas:
             for anterior, movimento in antes[posicao]:
-                seguintes.setdefault(anterior, []).append((posicao, movimento))
+                if anterior not in boas:
+                    boas.add(anterior)
+                    por_visitar.append(anterior)
 
         atual = self.posicao_inicial()
         caminho = [atual]
         ultimo = None
         while atual != objetivo:
-            opcoes = seguintes[atual]
-            descer_agora = ultimo != "descer"
-            escolhida = next((o for o in opcoes if (o[1] == "descer") == descer_agora), opcoes[0])
-            atual, ultimo = escolhida
+            # movimentos que continuam num caminho mais curto
+            opcoes = []
+            for movimento, seguinte in self.movimentos(atual):
+                if seguinte in boas and distancias[seguinte] == distancias[atual] + 1:
+                    opcoes.append((seguinte, movimento))
+
+            # após descer prefere-se outro movimento, e depois de outro movimento prefere-se descer
+            preferidas = []
+            for seguinte, movimento in opcoes:
+                if ultimo == "descer" and movimento != "descer":
+                    preferidas.append((seguinte, movimento))
+                elif ultimo != "descer" and movimento == "descer":
+                    preferidas.append((seguinte, movimento))
+
+            if preferidas:
+                atual, ultimo = preferidas[0]
+            else:
+                atual, ultimo = opcoes[0]
             caminho.append(atual)
         return caminho
+
+
+
+
+
 
     # ------------------------------------------------------------------
     # Jogada
