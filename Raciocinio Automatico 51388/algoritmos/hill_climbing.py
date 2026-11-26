@@ -1,20 +1,22 @@
 """
-Raciocínio automático Parte 4, slides 11 a 14 e 20 a 23
+Raciocínio automático Parte 4, slides 11 a 14 e 20 a 22
 
-O Hill-Climbing trata-se de um método de procura local.
-Na Parte 1(slide 19) os métodos exaustivos da percorrem o espaço de estados de forma sistemática,
-ao passo que aqui só se exploram os estados adjacentes ao atual
-Em que a procura começa no estado inicial e, em cada iteração, gera os sucessores, que resultam de
+O Hill-Climbing é um método de procura local. Os métodos exaustivos
+percorrem o espaço de estados de forma sistemática, ao passo que aqui
+só se exploram os estados adjacentes ao atual (slide 11). A procura começa no
+estado inicial e, em cada iteração, gera os sucessores, que resultam de
 transformações incrementais, e passa para o estado que tiver melhor avaliação.
-Quando nenhum sucessor tem valor superior ao do estado atual, a procura para e devolve
-esse estado (slides 12 e 13).
+Quando nenhum sucessor tem valor superior ao do estado atual, a procura para e
+devolve esse estado
+
 Como só mantém o estado atual e os seus sucessores, a complexidade espacial é
-linear no fator de ramificação e a temporal tambem é linear na dimensão da
-solução (slide 20), porém resulta a que o algoritmo não seja ótimo
-Pode ficar preso num máximo local, num máximo local plano ou num planalto, porque em nenhum
-desses pontos há um vizinho melhor (slide 21).
-Guardar os estados visitados resolveria a questão, mas a memória cresceria de forma
-exponencial.
+linear no fator de ramificação e a temporal também é linear na dimensão da
+solução (slide 20).
+Em contrapartida, o algoritmo não é completo nem ótimo,
+porque pode ficar preso num máximo local, num local plano ou num
+planalto, onde nenhum vizinho é melhor
+Guardar os estados visitados resolveria a questão,
+mas a memória cresceria de forma exponencial (slide 22).
 """
 
 
